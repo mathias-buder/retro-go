@@ -27,25 +27,25 @@
 #define RG_SCREEN_ROTATE            0
 #define RG_SCREEN_VISIBLE_AREA      {0, 0, 0, 0}
 #define RG_SCREEN_SAFE_AREA         {0, 0, 0, 0}
-#define RG_SCREEN_INIT()                                                                                         \
-    ILI9341_CMD(0xCF, 0x00, 0xc3, 0x30);                                                                         \
-    ILI9341_CMD(0xED, 0x64, 0x03, 0x12, 0x81);                                                                   \
-    ILI9341_CMD(0xE8, 0x85, 0x00, 0x78);                                                                         \
-    ILI9341_CMD(0xCB, 0x39, 0x2c, 0x00, 0x34, 0x02);                                                             \
-    ILI9341_CMD(0xF7, 0x20);                                                                                     \
-    ILI9341_CMD(0xEA, 0x00, 0x00);                                                                               \
-    ILI9341_CMD(0xC0, 0x1B);                 /* Power control   //VRH[5:0] */                                    \
-    ILI9341_CMD(0xC1, 0x12);                 /* Power control   //SAP[2:0];BT[3:0] */                            \
-    ILI9341_CMD(0xC5, 0x32, 0x3C);           /* VCM control */                                                   \
-    ILI9341_CMD(0xC7, 0x91);                 /* VCM control2 */                                                  \
-    ILI9341_CMD(0x36, 0xA8);                 /* Memory Access Control (MY|MV|BGR) */                             \
-    ILI9341_CMD(0xB1, 0x00, 0x10);           /* Frame Rate Control (1B=70, 1F=61, 10=119) */                     \
-    ILI9341_CMD(0xB6, 0x0A, 0xA2);           /* Display Function Control */                                      \
-    ILI9341_CMD(0xF6, 0x01, 0x30);                                                                               \
-    ILI9341_CMD(0xF2, 0x00);                 /* 3Gamma Function Disable */                                       \
-    ILI9341_CMD(0x26, 0x01);                 /* Gamma curve selected */                                          \
-    ILI9341_CMD(0xE0, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08, 0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00); \
-    ILI9341_CMD(0xE1, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F);
+#define RG_SCREEN_INIT()                                                                                                            \
+    ILI9341_CMD(0xCF, 0x00, 0xC3, 0x30);                /* Power Control B: regulator and source driver bias tuning. */             \
+    ILI9341_CMD(0xED, 0x64, 0x03, 0x12, 0x81);          /* Power-On Sequence: internal startup timing for stable ramp-up. */        \
+    ILI9341_CMD(0xE8, 0x85, 0x00, 0x78);                /* Driver Timing A: gate/source driver timing parameters. */                \
+    ILI9341_CMD(0xCB, 0x39, 0x2C, 0x00, 0x34, 0x02);    /* Power Control A: main analog power configuration. */                     \
+    ILI9341_CMD(0xF7, 0x20);                            /* Pump Ratio: charge-pump multiplier for LCD driving voltage. */           \
+    ILI9341_CMD(0xEA, 0x00, 0x00);                      /* Driver Timing B: secondary timing calibration. */                        \
+    ILI9341_CMD(0xC0, 0x1B);                            /* VRH: sets core regulator output voltage level. */                        \
+    ILI9341_CMD(0xC1, 0x12);                            /* SAP/BT: step-up factor and source driver current control. */             \
+    ILI9341_CMD(0xC5, 0x32, 0x3C);                      /* VCOM Control 1: common electrode voltage (contrast/flicker). */          \
+    ILI9341_CMD(0xC7, 0x91);                            /* VCOM Control 2: fine trim for VCOM offset. */                            \
+    ILI9341_CMD(0x36, 0xA8);                            /* MADCTL: row/column order and BGR color order (rotation/mirroring). */    \
+    ILI9341_CMD(0xB1, 0x00, 0x10);                      /* Frame Rate: division/line period, balances smoothness vs power. */       \
+    ILI9341_CMD(0xB6, 0x0A, 0xA2);                      /* Display Function: scan mode and LCD drive behavior. */                   \
+    ILI9341_CMD(0xF6, 0x01, 0x30);                      /* Interface Control: MCU/RGB interface and transfer format options. */     \
+    ILI9341_CMD(0xF2, 0x00);                            /* 3Gamma Disable: use explicit gamma tables below. */                      \
+    ILI9341_CMD(0x26, 0x01);                            /* Gamma Curve Select: base curve preset before custom tables. */           \
+    ILI9341_CMD(0xE0, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08, 0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00); /* PGAMCTRL: positive-voltage gamma response shaping. */ \
+    ILI9341_CMD(0xE1, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F); /* NGAMCTRL: negative-voltage gamma response shaping. */
 
 // Input
 // Refer to rg_input.h to see all available RG_KEY_* and RG_GAMEPAD_*_MAP types
@@ -86,7 +86,7 @@
 #define RG_GPIO_LCD_CS              GPIO_NUM_5
 #define RG_GPIO_LCD_DC              GPIO_NUM_21
 #define RG_GPIO_LCD_BCKL            GPIO_NUM_14
-// #define RG_GPIO_LCD_RST           GPIO_NUM_NC
+#define RG_GPIO_LCD_RST             GPIO_NUM_32
 
 // SPI SD Card
 #define RG_GPIO_SDSPI_MISO          GPIO_NUM_19
