@@ -48,12 +48,16 @@
     ILI9341_CMD(0xE1, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F); /* NGAMCTRL: negative-voltage gamma response shaping. */
 
 // Input
+#define RG_GAMEPAD_ADC_FILTER_WINDOW 150 // this is a filter value, to be sure, the adc is in stable situation (not falling or rizing)
+#define RG_GAMEPAD_ADC_MAP {\
+    {RG_KEY_UP,    ADC_UNIT_2, ADC_CHANNEL_3, ADC_ATTEN_DB_11, 2300, 4096},\
+    {RG_KEY_RIGHT, ADC_UNIT_2, ADC_CHANNEL_2, ADC_ATTEN_DB_11, 0,    1700},\
+    {RG_KEY_DOWN,  ADC_UNIT_2, ADC_CHANNEL_3, ADC_ATTEN_DB_11, 0,    1700},\
+    {RG_KEY_LEFT,  ADC_UNIT_2, ADC_CHANNEL_2, ADC_ATTEN_DB_11, 2400, 4096},\
+}
+
 // Refer to rg_input.h to see all available RG_KEY_* and RG_GAMEPAD_*_MAP types
 #define RG_GAMEPAD_GPIO_MAP {\
-    {RG_KEY_UP,     .num = GPIO_NUM_2,  .pullup = 1, .level = 0},\
-    {RG_KEY_DOWN,   .num = GPIO_NUM_12, .pullup = 1, .level = 0},\
-    {RG_KEY_LEFT,   .num = GPIO_NUM_15, .pullup = 1, .level = 0},\
-    {RG_KEY_RIGHT,  .num = GPIO_NUM_0,  .pullup = 1, .level = 0},\
     {RG_KEY_SELECT, .num = GPIO_NUM_13, .pullup = 1, .level = 0},\
     {RG_KEY_START,  .num = GPIO_NUM_27, .pullup = 1, .level = 0},\
     {RG_KEY_A,      .num = GPIO_NUM_4,  .pullup = 1, .level = 0},\
