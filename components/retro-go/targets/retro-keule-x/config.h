@@ -14,8 +14,8 @@
 // #define RG_I2C_GPIO_ADDR            0x00
 
 // Audio
-#define RG_AUDIO_USE_INT_DAC        3   // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
-#define RG_AUDIO_USE_EXT_DAC        0   // 0 = Disable, 1 = Enable
+#define RG_AUDIO_USE_INT_DAC        0  // 0 = Disable, 1 = GPIO25, 2 = GPIO26, 3 = Both
+#define RG_AUDIO_USE_EXT_DAC        1   // 0 = Disable, 1 = Enable
 
 // Video
 #define RG_SCREEN_DRIVER            0   // 0 = ILI9341/ST7789
@@ -60,7 +60,7 @@
 #define RG_GAMEPAD_GPIO_MAP {\
     {RG_KEY_SELECT, .num = GPIO_NUM_13, .pullup = 1, .level = 0},\
     {RG_KEY_START,  .num = GPIO_NUM_27, .pullup = 1, .level = 0},\
-    {RG_KEY_A,      .num = GPIO_NUM_4,  .pullup = 1, .level = 0},\
+    {RG_KEY_A,      .num = GPIO_NUM_0,  .pullup = 1, .level = 0},\
     {RG_KEY_B,      .num = GPIO_NUM_33, .pullup = 1, .level = 0},\
 }
 #define RG_GAMEPAD_VIRT_MAP {\
@@ -99,9 +99,9 @@
 #define RG_GPIO_SDSPI_CS            GPIO_NUM_22
 
 // External I2S DAC
-// #define RG_GPIO_SND_I2S_BCK         GPIO_NUM_4
-// #define RG_GPIO_SND_I2S_WS          GPIO_NUM_12
-// #define RG_GPIO_SND_I2S_DATA        GPIO_NUM_15
+#define RG_GPIO_SND_I2S_BCK         GPIO_NUM_4
+#define RG_GPIO_SND_I2S_WS          GPIO_NUM_12
+#define RG_GPIO_SND_I2S_DATA        GPIO_NUM_25
 // #define RG_GPIO_SND_AMP_ENABLE      GPIO_NUM_NC
 
 // Updater
